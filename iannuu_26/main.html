@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ianna 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Quicksand',sans-serif;
+}
+
+body{
+  background: linear-gradient(135deg,#ffd6e8,#ffe9c9);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding-top: 50px;
+  padding-bottom: 60px;
+}
+
+/* HEART CONTAINER (Fixes wiggle bug) */
+
+#heartsContainer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+/* INTRO OVERLAY */
+
+.intro{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff9ecf,#ffc3a0);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  animation: fadeOut 2s ease 3.5s forwards;
+}
+
+.intro h1{
+  font-family:'Pacifico',cursive;
+  font-size:3rem;
+  color:white;
+  animation: pop 1.2s ease;
+}
+
+.intro p{
+  margin-top:15px;
+  font-size:1.2rem;
+  color:white;
+  animation: floatText 2s ease infinite alternate;
+}
+
+@keyframes pop{
+  0%{transform:scale(0);}
+  80%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+@keyframes floatText{
+  from{transform:translateY(0);}
+  to{transform:translateY(-10px);}
+}
+
+@keyframes fadeOut{
+  to{
+    opacity:0;
+    visibility:hidden;
+  }
+}
+
+/* MAIN CONTAINER */
+
+.container{
+  width:90%;
+  max-width:700px;
+  background:white;
+  padding:30px;
+  border-radius:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+header{
+  font-family:'Pacifico',cursive;
+  font-size:2.5rem;
+  color:#ff4f87;
+  margin-bottom:25px;
+}
+
+/* FRIEND CARDS */
+
+.friend{
+  position:relative;
+  padding:30px 20px 25px;
+  border-radius:22px;
+  margin-bottom:20px;
+  overflow:hidden;
+  color:white;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  transition:0.4s ease;
+}
+
+.friend:hover{
+  transform:translateY(-6px) scale(1.02);
+}
+
+.friend.emma{
+  background:linear-gradient(135deg,#ff9ecf,#ff6fa5);
+}
+
+.friend.liam{
+  background:linear-gradient(135deg,#8fd3f4,#5bbcff);
+}
+
+.friend.sophia{
+  background:linear-gradient(135deg,#fbc2eb,#a6c1ee);
+}
+
+.friend.noah{
+  background:linear-gradient(135deg,#a8ffcf,#5bd6a2);
+}
+
+.friend h3{
+  font-size:1.3rem;
+  margin-bottom:15px;
+  position:relative;
+  z-index:2;
+}
+
+.friend::after{
+  content:"🎧";
+  position:absolute;
+  font-size:60px;
+  opacity:0.1;
+  right:15px;
+  bottom:5px;
+}
+
+/* Soundwave */
+
+.wave{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:4px;
+  margin-bottom:15px;
+  height:35px; /* Fixed height so card never shrinks */
+}
+
+.wave span{
+  width:4px;
+  height:30px; /* Fixed base height */
+  background:white;
+  border-radius:3px;
+  transform-origin:bottom;
+  animation:wave 1s infinite ease-in-out;
+}
+
+.wave span:nth-child(2){animation-delay:0.1s;}
+.wave span:nth-child(3){animation-delay:0.2s;}
+.wave span:nth-child(4){animation-delay:0.3s;}
+.wave span:nth-child(5){animation-delay:0.4s;}
+
+@keyframes wave{
+  0%,100%{transform:scaleY(0.5);}
+  50%{transform:scaleY(1);}
+}
+
+/* Buttons */
+
+button{
+  border:none;
+  padding:10px 18px;
+  border-radius:30px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.friend button{
+  background:white;
+  color:#333;
+}
+
+.friend button:hover{
+  background:#f0f0f0;
+}
+
+.unlock{
+  margin-top:20px;
+}
+
+input{
+  padding:10px;
+  border-radius:20px;
+  border:2px solid #ff4f87;
+  width:70%;
+  outline:none;
+}
+
+.secret-box{
+  display:none;
+  width:90%;
+  max-width:750px;
+  background:linear-gradient(135deg,#fff0f7,#ffe4f0);
+  padding:40px;
+  border-radius:30px;
+  box-shadow:0 20px 60px rgba(255,79,135,0.25);
+  text-align:center;
+  animation: fadeIn 1s ease forwards;
+  position:relative;
+  z-index:1;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.9);}
+  to{opacity:1; transform:scale(1);}
+}
+
+.secret-box h2{
+  font-family:'Pacifico',cursive;
+  color:#ff2f74;
+  font-size:2.2rem;
+  margin-bottom:20px;
+}
+
+.secret-message{
+  font-size:1.1rem;
+  line-height:1.7;
+  color:#444;
+  margin-bottom:25px;
+}
+
+/* Floating hearts */
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation: floatHearts 6s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatHearts{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="heartsContainer"></div>
+
+<div class="intro">
+  <h1>Happy Birthday Ianna 🎂</h1>
+  <p>Something special is waiting for you 💖</p>
+</div>
+
+<div class="container" id="mainContent">
+
+<header>Birthday Voice Messages 🎧</header>
+
+<div class="friend emma">
+  <h3>Emmy 💕</h3>
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button onclick="playAudio('emma')">Play Voice</button>
+  <audio id="emma" src="emmy.ogg"></audio>
+</div>
+
+<div class="friend liam">
+  <h3>hhh 💙</h3>
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button onclick="playAudio('liam')">Play Voice</button>
+  <audio id="liam" src="chevs.mp3"></audio>
+</div>
+
+<div class="friend sophia">
+  <h3>Jana 🌸</h3>
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button onclick="playAudio('sophia')">Play Voice</button>
+  <audio id="sophia" src="jana.m4a"></audio>
+</div>
+
+<!-- NEW FRIEND -->
+<div class="friend noah">
+  <h3>New Friend ✨</h3>
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button onclick="playAudio('noah')">Play Voice</button>
+  <audio id="noah" src="noah.mp3"></audio>
+</div>
+
+<div class="unlock">
+  <p>🔐 Enter the special nickname</p>
+  <input type="text" id="codeInput" placeholder="The nickname...">
+  <br><br>
+  <button onclick="unlock()">Unlock Secret 💌</button>
+  <div id="unlockMessage" style="margin-top:10px;font-weight:600;"></div>
+</div>
+
+</div>
+
+<div class="secret-box" id="secretSection">
+
+<h2>For Ianna, From Shimi 💖</h2>
+
+<div class="secret-message">
+Happy Birthday, Ianna.  
+If you're reading this, it means you unlocked something made just for you.  
+
+I hope today reminds you how loved and special you truly are.  
+You light up rooms without even trying.  
+You make ordinary moments feel magical.  
+
+No matter what this year brings,  
+I hope it brings growth, laughter, unforgettable memories,  
+and everything your heart secretly wishes for.  
+
+Never stop being you. 💕
+</div>
+
+<button onclick="playAudio('shimi')" style="background:#ff4f87;color:white;">Play My Voice 💗</button>
+<audio id="shimi" src="shimi.mp3"></audio>
+
+<br><br>
+<button onclick="goBack()" style="background:#ddd;">Go Back</button>
+
+</div>
+
+<script>
+
+function playAudio(id){
+  document.querySelectorAll("audio").forEach(a=>{
+    if(a.id===id){
+      a.paused ? a.play() : a.pause();
+    } else {
+      a.pause();
+      a.currentTime=0;
+    }
+  });
+}
+
+function unlock(){
+  const val=document.getElementById("codeInput").value.trim().toLowerCase();
+  const msg=document.getElementById("unlockMessage");
+
+  if(/^shim(i+)$/.test(val)){
+    document.getElementById("mainContent").style.display="none";
+    document.getElementById("secretSection").style.display="block";
+  } else {
+    msg.style.color="red";
+    msg.innerText="That's not the nickname 🥺";
+  }
+}
+
+function goBack(){
+  document.getElementById("secretSection").style.display="none";
+  document.getElementById("mainContent").style.display="block";
+}
+
+/* HEART SPAWN FIXED */
+
+const heartContainer = document.getElementById("heartsContainer");
+
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*20)+"px";
+  heartContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},800);
+
+</script>
+
+</body>
+</html>
