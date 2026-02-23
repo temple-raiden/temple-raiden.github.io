@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Elena 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Quicksand',sans-serif;
+}
+
+body{
+  background: linear-gradient(135deg,#ffd6e8,#ffe9c9);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:50px 0 60px;
+}
+
+/* Floating Hearts */
+#heartsContainer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  animation: floatHearts 6s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes floatHearts{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+}
+
+/* Intro */
+.intro{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff9ecf,#ffc3a0);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  animation: fadeOut 1.5s ease 3s forwards;
+}
+
+.intro h1{
+  font-family:'Pacifico',cursive;
+  font-size:3.5rem;
+  color:white;
+  text-shadow: 0 4px 15px rgba(255, 79, 135, 0.3);
+}
+
+@keyframes fadeOut{
+  to{opacity:0;visibility:hidden;}
+}
+
+/* Main Container */
+.container{
+  width:90%;
+  max-width:650px;
+  background:rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding:40px 30px;
+  border-radius:35px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+header{
+  font-family:'Pacifico',cursive;
+  font-size:2.5rem;
+  color:#ff4f87;
+  margin-bottom:30px;
+}
+
+/* --- Prettier, Modern Cards --- */
+.friend {
+  position: relative;
+  padding: 18px 25px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Glass shine effect */
+.friend::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.friend:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+
+.friend.emma{ background:linear-gradient(135deg,#ff8fc7,#ff5e9e);}
+.friend.liam{ background:linear-gradient(135deg,#7ad3ff,#4ab0ff);}
+.friend.sophia{ background:linear-gradient(135deg,#f7b6ff,#8fb8ff);}
+.friend.noah{ background:linear-gradient(135deg,#7fffd4,#4dd2a3);}
+
+/* Play Icon Bubble */
+.play-icon {
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.play-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+  margin-left: 3px;
+}
+
+/* Text Container */
+.card-text {
+  flex-grow: 1;
+}
+
+.card-text h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.card-text p {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Decorative Icon on the right */
+.card-decor {
+  font-size: 1.4rem;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* --- Modal Styling --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.modal-content {
+  background: white;
+  width: 85%;
+  max-width: 400px;
+  padding: 50px 30px;
+  border-radius: 40px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(255, 79, 135, 0.2);
+  transform: scale(0.9);
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-overlay.active .modal-content { transform: scale(1); }
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2.5rem;
+  color: #ff4f87;
+  cursor: pointer;
+  line-height: 1;
+  transition: 0.3s;
+}
+.close-modal:hover { transform: rotate(90deg); }
+
+.modal-name {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+  color: #ff4f87;
+  margin-bottom: 15px;
+  transition: 0.8s ease;
+}
+
+.hidden-name { filter: blur(12px); opacity: 0; transform: translateY(15px); }
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  height: 12px;
+  background: #ffe4f0;
+  border-radius: 20px;
+  margin: 30px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8fc7, #ff4f87);
+  border-radius: 20px;
+  transition: width 0.1s linear;
+}
+
+/* Audio Visualizer */
+.wave {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 6px;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.wave span {
+  width: 6px;
+  height: 15px;
+  background: #ff4f87;
+  border-radius: 10px;
+  animation: waveAnim 1s infinite ease-in-out;
+}
+
+@keyframes waveAnim {
+  0%, 100% { height: 15px; }
+  50% { height: 45px; }
+}
+
+.btn-main {
+  background: linear-gradient(135deg, #ff4f87, #ff8fc7);
+  color: white;
+  padding: 18px 45px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(255, 79, 135, 0.3);
+  transition: 0.3s;
+  margin-top: 15px;
+}
+.btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(255, 79, 135, 0.4);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="heartsContainer"></div>
+
+<div class="intro">
+  <h1>Happy Birthday Elena 🎂</h1>
+  <p style="color:white; margin-top:15px; font-weight:600;">Someone left you some voice notes...</p>
+</div>
+
+<svg style="display:none;">
+  <symbol id="play-icon" viewBox="0 0 24 24">
+    <path d="M8 5v14l11-7z"/>
+  </symbol>
+</svg>
+
+<div class="container" id="mainContent">
+  <header>Birthday Voice Notes 🎧</header>
+
+  <div class="friend emma" onclick="openModal('Liza 💖', 'Max.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #1</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">✨</div>
+  </div>
+
+  <div class="friend liam" onclick="openModal('Chevs 💙', 'ethan.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #2</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🎵</div>
+  </div>
+
+  <div class="friend sophia" onclick="openModal('Ianna 🌸', 'mia.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #3</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🌸</div>
+  </div>
+
+  <div class="friend noah" onclick="openModal('Jana ✨', 'lucas.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #4</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🎁</div>
+  </div>
+
+  <div class="friend emma" onclick="openModal('Max 💕', 'zoe.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #5</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">💌</div>
+  </div>
+
+  <div class="friend liam" onclick="openModal('Kezia 💙', 'james.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #6</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🌟</div>
+  </div>
+
+  <div class="friend sophia" onclick="openModal('Gregory 🌷', 'lily.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #7</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🌷</div>
+  </div>
+
+  <div class="friend noah" onclick="openModal('Oliver 🌟', 'oliver.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #8</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🎈</div>
+  </div>
+
+  <div class="friend emma" onclick="openModal('Max 💕', 'zoe.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #9</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">💝</div>
+  </div>
+
+  <div class="friend liam" onclick="openModal('Kezia 💙', 'james.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #10</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">✨</div>
+  </div>
+
+  <div class="friend sophia" onclick="openModal('Gregory 🌷', 'lily.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #11</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">🎵</div>
+  </div>
+
+  <div class="friend noah" onclick="openModal('Oliver 🌟', 'oliver.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3>Mystery Note #12</h3>
+      <p>Tap to unlock message</p>
+    </div>
+    <div class="card-decor">💖</div>
+  </div>
+
+  <button class="btn-main" onclick="window.location.href='fallen.html'">
+    Most Importantly (JK) 💌
+  </button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    
+    <div id="modalName" class="modal-name hidden-name">???</div>
+    
+    <div class="wave" id="visualizer">
+      <span style="animation-delay: 0.1s"></span>
+      <span style="animation-delay: 0.2s"></span>
+      <span style="animation-delay: 0.3s"></span>
+      <span style="animation-delay: 0.4s"></span>
+      <span style="animation-delay: 0.5s"></span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    
+    <p id="modalStatus" style="color:#ff4f87; font-weight:700; letter-spacing: 1px; font-size:0.9rem;">PLAYING VOICE NOTE...</p>
+  </div>
+</div>
+
+<audio id="audioPlayer"></audio>
+
+<script>
+const audio = document.getElementById('audioPlayer');
+const modal = document.getElementById('modalOverlay');
+const bar = document.getElementById('progressBar');
+const nameLabel = document.getElementById('modalName');
+const statusText = document.getElementById('modalStatus');
+const visualizer = document.getElementById('visualizer');
+
+let currentCardElement = null; 
+
+function openModal(name, file, cardElement) {
+    currentCardElement = cardElement;
+
+    nameLabel.innerText = "???";
+    nameLabel.classList.add('hidden-name');
+    bar.style.width = "0%";
+    statusText.innerText = "PLAYING VOICE NOTE...";
+    visualizer.style.display = 'flex';
+    
+    audio.src = file;
+    audio.play();
+    
+    modal.classList.add('active');
+
+    audio.ontimeupdate = () => {
+        if(audio.duration) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            bar.style.width = pct + "%";
+        }
+    };
+
+    audio.onended = () => {
+        nameLabel.innerText = name;
+        nameLabel.classList.remove('hidden-name');
+        statusText.innerText = "SENT WITH LOVE ✨";
+        visualizer.style.display = 'none';
+        bar.style.width = "100%";
+
+        if (currentCardElement) {
+            const titleElement = currentCardElement.querySelector('h3');
+            const subtextElement = currentCardElement.querySelector('p');
+            
+            if (titleElement) titleElement.innerText = name;
+            if (subtextElement) subtextElement.innerText = "Message unlocked ✨";
+        }
+    };
+}
+
+function closeModal() {
+    audio.pause();
+    audio.currentTime = 0;
+    modal.classList.remove('active');
+}
+
+// Background Hearts
+const heartContainer = document.getElementById("heartsContainer");
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💕";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*25)+"px";
+  heartContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},800);
+</script>
+
+</body>
+</html>

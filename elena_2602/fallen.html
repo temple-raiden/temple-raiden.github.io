@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Message for Elena 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Quicksand',sans-serif;
+}
+
+body{
+  background: linear-gradient(135deg,#ffd6e8,#ffe9c9);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:50px 0 60px;
+}
+
+#heartsContainer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  animation: floatHearts 6s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes floatHearts{
+  to{ transform:translateY(-110vh); opacity:0; }
+}
+
+.container{
+  width:90%;
+  max-width:650px;
+  background:rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding:40px 30px;
+  border-radius:35px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+/* Locked Content Styling */
+.locked-content {
+  filter: blur(8px);
+  opacity: 0.3;
+  pointer-events: none;
+  transition: all 1.5s ease;
+  user-select: none;
+}
+
+.unlocked {
+  filter: blur(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.friend {
+  position: relative;
+  padding: 18px 25px;
+  border-radius: 20px;
+  margin-top: 20px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: linear-gradient(135deg,#ff8fc7,#ff5e9e);
+}
+
+.friend:hover { transform: translateY(-5px) scale(1.02); }
+
+.play-icon {
+  width: 45px; height: 45px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+  display: flex; justify-content: center; align-items: center;
+  margin-right: 20px; flex-shrink: 0;
+}
+
+.play-icon svg { width: 18px; height: 18px; fill: white; margin-left: 3px; }
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  display: none; justify-content: center; align-items: center;
+  z-index: 1000; opacity: 0; transition: opacity 0.4s ease;
+}
+
+.modal-content {
+  background: white; width: 90%; max-width: 450px;
+  padding: 40px 25px; border-radius: 40px;
+  text-align: center; position: relative;
+  box-shadow: 0 30px 60px rgba(255, 79, 135, 0.2);
+  transform: scale(0.9); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-overlay.active .modal-content { transform: scale(1); }
+
+.close-modal {
+  position: absolute; top: 15px; right: 25px;
+  font-size: 2.5rem; color: #ff4f87; cursor: pointer;
+}
+
+/* Subtitle/Voice Line Animation */
+#voiceLines {
+  min-height: 80px;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ff4f87;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.line-anim {
+  animation: slideUpFade 0.5s ease forwards;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.progress-container {
+  width: 100%; height: 8px;
+  background: #ffe4f0; border-radius: 20px;
+  margin: 20px 0; overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #ff8fc7, #ff4f87);
+  transition: width 0.1s linear;
+}
+
+.wave {
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: 6px; height: 30px; margin-bottom: 10px;
+}
+.wave span {
+  width: 4px; height: 10px; background: #ff4f87;
+  border-radius: 10px; animation: waveAnim 1s infinite ease-in-out;
+}
+
+@keyframes waveAnim {
+  0%, 100% { height: 10px; }
+  50% { height: 30px; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="heartsContainer"></div>
+
+<svg style="display:none;">
+  <symbol id="play-icon" viewBox="0 0 24 24">
+    <path d="M8 5v14l11-7z"/>
+  </symbol>
+</svg>
+
+<div class="container">
+  <div class="friend" onclick="openModal('Dumbass 💗', 'Fallen.m4a', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3 style="font-size:1.2rem;">Listen to Me</h3>
+      <p id="unlock-hint">Unlock the message below by listening... 🎧</p>
+    </div>
+    <div class="card-decor">💗</div>
+  </div>
+
+  <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ffb6c1;">
+
+  <div id="secretMessage" class="locked-content">
+    <h2 style="font-family:'Pacifico',cursive; color:#ff2f74; font-size:2.2rem; margin-bottom:20px;">For Elena, From Shimi 💖</h2>
+    <div style="font-size:1.15rem; line-height:1.7; color:#444;">
+      Happy Birthday, Elena.<br><br>
+      I love you so much, you know.<br><br>
+      Sometimes I think about my childhood self and wonder what he would think if he saw me now...<br><br>
+      I hope this year brings you warmth, peace, love, happiness and light and everything that you desire. Happy Birthday, Elena. 💕
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    
+    <div class="wave">
+      <span style="animation-delay: 0.1s"></span>
+      <span style="animation-delay: 0.2s"></span>
+      <span style="animation-delay: 0.3s"></span>
+      <span style="animation-delay: 0.4s"></span>
+      <span style="animation-delay: 0.5s"></span>
+    </div>
+
+    <div id="voiceLines">"Click play to begin..."</div>
+
+    <div class="progress-container">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    
+    <p id="modalStatus" style="color:#ff4f87; font-weight:700; font-size:0.8rem; letter-spacing:1px;">AUDIO ACTIVE</p>
+  </div>
+</div>
+
+<audio id="audioPlayer"></audio>
+
+<script>
+const audio = document.getElementById('audioPlayer');
+const modal = document.getElementById('modalOverlay');
+const bar = document.getElementById('progressBar');
+const voiceDisplay = document.getElementById('voiceLines');
+const secretContent = document.getElementById('secretMessage');
+const hintText = document.getElementById('unlock-hint');
+
+// DICTIONARY: [Seconds] : "Line to show"
+// Note: Adjust these seconds to match the actual timing of your voice note!
+const script = {
+    0: "Happy Birthday, Elena!",
+    2: "But who is Elena, some might ask?",
+    6: "Well… that’s kind of a difficult question.",
+    9: "Because Elena is not something that mere words could explain.",
+    13: "She… she is the ray of light in the dark.",
+    16: "For the blind, she is the vision.",
+    18: "For the hungry, she is the chef.",
+    20: "For the thirsty, she is the water.",
+    22: "Her beauty is so striking, so radiant...",
+    24: "That even Annie from League looks Pale in comparison.",
+    28: "Her voice is so soothing, so mesmerizing...",
+    30: "That even my Mommy ASMR videos stand no chance.",
+    33: "Her intelligence is so formidable...",
+    34: "That even Isaac Newton would look like a NIGGA in comparison.",
+    39: "If Elena thinks, I agree.",
+    41: "If Elena speaks, I listen.",
+    42: "If Elena has a million fans, I am one of them.",
+    45: "If Elena has a thousand fans, I am one of them.",
+    48: "If she has only one fan, then that fan is me.",
+    51: "If she has no fans, then i have ceased to exist.",
+    56: "And if the world is against Elena, then I am against the world.",
+    59: "...",
+    61: "So here’s to you, Elena — the one and only.",
+    64: "The reason we all celebrate today.",
+    66: "Happy birthday!"
+};
+
+let lastTime = -1;
+
+function openModal(name, file) {
+    audio.src = file;
+    audio.play();
+    modal.classList.add('active');
+    
+    audio.ontimeupdate = () => {
+        if(audio.duration) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            bar.style.width = pct + "%";
+            
+            // Check script dictionary
+            let currentSec = Math.floor(audio.currentTime);
+            if (script[currentSec] && currentSec !== lastTime) {
+                lastTime = currentSec;
+                updateVoiceLine(script[currentSec]);
+            }
+        }
+    };
+
+    audio.onended = () => {
+        // Unlock the page content
+        secretContent.classList.add('unlocked');
+        hintText.innerText = "Message Unlocked! ✨";
+        hintText.style.color = "#4dd2a3";
+        updateVoiceLine("XDD I love you <3");
+    };
+}
+
+function updateVoiceLine(text) {
+    voiceDisplay.classList.remove('line-anim');
+    void voiceDisplay.offsetWidth; // Trigger reflow
+    voiceDisplay.innerText = text;
+    voiceDisplay.classList.add('line-anim');
+}
+
+function closeModal() {
+    audio.pause();
+    modal.classList.remove('active');
+}
+
+// Background Hearts
+const heartContainer = document.getElementById("heartsContainer");
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💕";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*25)+"px";
+  heartContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},800);
+</script>
+
+</body>
+</html>
