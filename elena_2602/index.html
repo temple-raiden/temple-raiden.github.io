@@ -57,7 +57,6 @@ body{
   justify-content:center;
   align-items:center;
   z-index:999;
-  animation: fadeOut 1.5s ease 3s forwards;
 }
 
 .intro h1{
@@ -290,16 +289,109 @@ header{
   box-shadow: 0 15px 35px rgba(255, 79, 135, 0.4);
 }
 
+/* Floating Music Toggle Button */
+#musicToggleBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:55px;
+  height:55px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+  z-index:1000;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  transition:all 0.3s ease;
+}
+
+#musicToggleBtn:hover{
+  transform:scale(1.1);
+  background:rgba(255,255,255,0.25);
+}
+
+/* Mobile safe area */
+@media (max-width:600px){
+  #musicToggleBtn{
+    bottom:25px;
+    right:15px;
+    width:50px;
+    height:50px;
+    font-size:20px;
+  }
+}
+
+.most-importantly {
+  display: none;
+}
+
+/* Locked Content Styling */
+.locked-content {
+  filter: blur(8px);
+  opacity: 0.3;
+  pointer-events: none;
+  transition: all 1.5s ease;
+  user-select: none;
+}
+
+.unlocked {
+  filter: blur(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.friend-2 {
+  position: relative;
+  padding: 18px 25px;
+  border-radius: 20px;
+  margin-top: 20px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: linear-gradient(135deg,#ff8fc7,#ff5e9e);
+}
+
+.friend-2:hover { transform: translateY(-5px) scale(1.02); }
+
+/* Subtitle/Voice Line Animation */
+#voiceLines {
+  min-height: 80px;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ff4f87;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.line-anim {
+  animation: slideUpFade 0.5s ease forwards;
+}
 </style>
 </head>
 
+<button id="musicToggleBtn">🔊</button>
 <body>
 
 <div id="heartsContainer"></div>
 
 <div class="intro">
   <h1>Happy Birthday Elena 🎂</h1>
-  <p style="color:white; margin-top:15px; font-weight:600;">Someone left you some voice notes...</p>
+  <p style="color:white; margin-top:15px; font-weight:600;">I got something to show you...</p>
+  <p id="loadingText" style="color:white; margin-top:15px; font-weight:600;">
+    Please wait a moment...
+  </p>
 </div>
 
 <svg style="display:none;">
@@ -311,16 +403,16 @@ header{
 <div class="container" id="mainContent">
   <header>Birthday Voice Notes 🎧</header>
 
-  <div class="friend emma" onclick="openModal('Max ✨', 'Max.mp3', this)">
+  <div class="friend emma" onclick="openModal('Liza 💕', 'Liza.m4a', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #1</h3>
       <p>Tap to unlock message</p>
     </div>
-    <div class="card-decor">✨</div>
+    <div class="card-decor">👑</div>
   </div>
 
-  <div class="friend liam" onclick="openModal('Gregory 💙', 'Gregory.m4a', this)">
+  <div class="friend liam" onclick="openModal('Chevs 💙', 'Chev.mp3', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #2</h3>
@@ -329,7 +421,7 @@ header{
     <div class="card-decor">🎵</div>
   </div>
 
-  <div class="friend sophia" onclick="openModal('Kezia 🌸', 'Kezia.m4a', this)">
+  <div class="friend sophia" onclick="openModal('Jana 🌸', 'Jana.m4a', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #3</h3>
@@ -338,7 +430,7 @@ header{
     <div class="card-decor">🌸</div>
   </div>
 
-  <div class="friend noah" onclick="openModal('Donald Trump 💖', 'Trump.mp3', this)">
+  <div class="friend noah" onclick="openModal('Max 🌟', 'Max.mp3', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #4</h3>
@@ -347,7 +439,7 @@ header{
     <div class="card-decor">🎁</div>
   </div>
 
-  <div class="friend emma" onclick="openModal('Max 💕', 'zoe.mp3', this)">
+  <div class="friend emma" onclick="openModal('Donald Trump 💖', 'Trump.mp3', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #5</h3>
@@ -356,16 +448,16 @@ header{
     <div class="card-decor">💌</div>
   </div>
 
-  <div class="friend liam" onclick="openModal('Kezia 💙', 'james.mp3', this)">
+  <div class="friend liam" onclick="openModal('Xinyang 💕', 'Sheehan.mp3', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #6</h3>
       <p>Tap to unlock message</p>
     </div>
-    <div class="card-decor">🌟</div>
+    <div class="card-decor">💕</div>
   </div>
 
-  <div class="friend sophia" onclick="openModal('Gregory 🌷', 'lily.mp3', this)">
+  <div class="friend sophia" onclick="openModal('Andrew Tate 🌷', 'andrewNigg.mp3', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #7</h3>
@@ -374,7 +466,7 @@ header{
     <div class="card-decor">🌷</div>
   </div>
 
-  <div class="friend noah" onclick="openModal('Oliver 🌟', 'oliver.mp3', this)">
+  <div class="friend noah" onclick="openModal('Gregory 🌟', 'Gregory.m4a', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #8</h3>
@@ -383,43 +475,25 @@ header{
     <div class="card-decor">🎈</div>
   </div>
 
-  <div class="friend emma" onclick="openModal('Max 💕', 'zoe.mp3', this)">
+  <div class="friend emma" onclick="openModal('Kezia 💙', 'Kezia.m4a', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #9</h3>
       <p>Tap to unlock message</p>
     </div>
-    <div class="card-decor">💝</div>
+    <div class="card-decor">✨</div>
   </div>
 
-  <div class="friend liam" onclick="openModal('Kezia 💙', 'james.mp3', this)">
+  <div class="friend liam" onclick="openModal('Family (Lizas) 💙', 'fam.m4a', this)">
     <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
     <div class="card-text">
       <h3>Mystery Note #10</h3>
       <p>Tap to unlock message</p>
     </div>
-    <div class="card-decor">✨</div>
+    <div class="card-decor">💝</div>
   </div>
 
-  <div class="friend sophia" onclick="openModal('Gregory 🌷', 'lily.mp3', this)">
-    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
-    <div class="card-text">
-      <h3>Mystery Note #11</h3>
-      <p>Tap to unlock message</p>
-    </div>
-    <div class="card-decor">🎵</div>
-  </div>
-
-  <div class="friend noah" onclick="openModal('Oliver 🌟', 'oliver.mp3', this)">
-    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
-    <div class="card-text">
-      <h3>Mystery Note #12</h3>
-      <p>Tap to unlock message</p>
-    </div>
-    <div class="card-decor">💖</div>
-  </div>
-
-  <button class="btn-main" onclick="window.location.href='fallen.html'">
+  <button class="btn-main" onclick="ShowMostImportant()">
     Most Importantly (JK) 💌
   </button>
 </div>
@@ -446,17 +520,218 @@ header{
   </div>
 </div>
 
+<div class="container most-importantly" id="secondaryContent">
+  <div class="friend-2" onclick="openModalSp('Dumbass 💗', 'Fallen.mp3', this)">
+    <div class="play-icon"><svg><use href="#play-icon"></use></svg></div>
+    <div class="card-text">
+      <h3 style="font-size:1.2rem;">Listen to Me</h3>
+      <p id="unlock-hint">Unlock the message below by listening... 🎧</p>
+    </div>
+    <div class="card-decor">💗</div>
+  </div>
+
+  <hr style="margin: 30px 0; border: 0; border-top: 1px dashed #ffb6c1;">
+
+  <div id="secretMessage" class="locked-content">
+    <h2 style="font-family:'Pacifico',cursive; color:#ff2f74; font-size:2.2rem; margin-bottom:20px;">For Elena, From Fallen 💖</h2>
+    <div style="font-size:1.15rem; line-height:1.7; color:#444;">
+      Happy Birthday, Elena.<br><br>
+      I LOVE YOU SO MUCH
+     <br><br>
+      Im sorry, Im not the best at happy birthday wishes BUT ILL SAY WHAT I WANNA HEHE.
+      <br><br>
+      Thank you so so much, for everything, words cant express how much you mean to me, but I will try.
+      <br><br>
+      Thank you for your humor which never fails to cheer me up, no matter if im mad, sad or horny- (JOKING JOKING XD)
+      <br><br>
+      Thank you for your time that doesnt let me feel alone or lonely.
+      <br><br>
+      Thank you for your empathy which makes me feel understood and cared for.
+      <br><br>
+      Thank you for kindness with which you forgive me, when I make mistakes, weither they are in-game or in general
+      <br> <br>
+      Thank you for sharing your stories or yapping in general which doesnt let me be bored (and makes me feel important and worthy :3)
+      <br><br>
+      Thank you for your presence which makes me look forward to my everyday
+      <br><br>
+      Thank you for your friendship which makes me look forward to my life.
+      <br><br>
+      Thank you Elena, Thank you for existing, Thank you for being you. Im grateful to have been granted the previlage to know you.
+      <br><br>
+      OH OH OH AND Thank you for going duo bot with me, I wanted someone to play with together, and you are more amazing (in every way) than I ever asked god for them to be. 
+      <br><br>
+      Happy Birthday, Elena. 💕
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay-2">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    
+    <div class="wave">
+      <span style="animation-delay: 0.1s"></span>
+      <span style="animation-delay: 0.2s"></span>
+      <span style="animation-delay: 0.3s"></span>
+      <span style="animation-delay: 0.4s"></span>
+      <span style="animation-delay: 0.5s"></span>
+    </div>
+
+    <div id="voiceLines">"Click play to begin..."</div>
+
+    <div class="progress-container">
+      <div class="progress-fill" id="progressBar2"></div>
+    </div>
+    
+    <p id="modalStatus" style="color:#ff4f87; font-weight:700; font-size:0.8rem; letter-spacing:1px;">AUDIO ACTIVE</p>
+  </div>
+</div>
+
+<audio id="bgMusic" src="background_music.mp3" loop preload="auto"></audio>
 <audio id="audioPlayer"></audio>
 
+
 <script>
+const script = {
+    0: "Happy Birthday, Elena!",
+    2: "But who is Elena, some might ask?",
+    6: "Well… that’s kind of a difficult question.",
+    9: "Because Elena is not something that mere words could explain.",
+    13: "She… she is the ray of light in the dark.",
+    16: "For the blind, she is the vision.",
+    18: "For the hungry, she is the chef.",
+    20: "For the thirsty, she is the water.",
+    22: "Her beauty is so striking, so radiant...",
+    24: "That even Annie from League looks Pale in comparison.",
+    28: "Her voice is so soothing, so mesmerizing...",
+    30: "That even my Mommy ASMR videos stand no chance.",
+    33: "Her intelligence is so formidable...",
+    34: "That even Isaac Newton would look like a NIGGA in comparison.",
+    39: "If Elena thinks, I agree.",
+    41: "If Elena speaks, I listen.",
+    42: "If Elena has a million fans, I am one of them.",
+    45: "If Elena has a thousand fans, I am one of them.",
+    48: "If Elena has only one fan, then that fan is me.",
+    51: "If Elena has no fans, then i have ceased to exist.",
+    56: "And if the world is against Elena, then I am against the world.",
+    59: "...",
+    60: "So here’s to you, Elena — the one and only.",
+    62: "The reason we all celebrate today.",
+    64: "Happy birthday!"
+};
+
 const audio = document.getElementById('audioPlayer');
 const modal = document.getElementById('modalOverlay');
+const modal2 = document.getElementById('modalOverlay-2');
 const bar = document.getElementById('progressBar');
+const bar2 = document.getElementById('progressBar2');
 const nameLabel = document.getElementById('modalName');
 const statusText = document.getElementById('modalStatus');
 const visualizer = document.getElementById('visualizer');
+const mainContainer = document.getElementById('mainContent')
+const secondaryContainer = document.getElementById('secondaryContent')
 
-let currentCardElement = null; 
+const bgMusic = document.getElementById('bgMusic');
+const introScreen = document.querySelector('.intro');
+const loadingText = document.getElementById('loadingText');
+const voiceDisplay = document.getElementById('voiceLines');
+const secretContent = document.getElementById('secretMessage');
+const hintText = document.getElementById('unlock-hint');
+
+let currentCardElement = null;
+let isMuted = false;
+
+
+/* =========================
+   BACKGROUND MUSIC HELPERS
+========================= */
+
+function fadeOutMusic(duration = 600) {
+    if (!bgMusic) return;
+    if (isMuted) return;
+
+    const interval = 50;
+    const step = bgMusic.volume / (duration / interval);
+
+    const fade = setInterval(() => {
+        if (bgMusic.volume - step > 0.1) {
+            bgMusic.volume -= step;
+        } else {
+            bgMusic.volume = 0.1;
+            clearInterval(fade);
+        }
+    }, interval);
+}
+
+function fadeInMusic(target = 0.4, duration = 1500) {
+    if (!bgMusic) return;
+    if (isMuted) return;
+
+    const interval = 50;
+    const step = target / (duration / interval);
+
+    const fade = setInterval(() => {
+        if (bgMusic.volume + step < target) {
+            bgMusic.volume += step;
+        } else {
+            bgMusic.volume = target;
+            clearInterval(fade);
+        }
+    }, interval);
+}
+
+/* =========================
+   INTRO WITH CLICK TO CONTINUE
+========================= */
+/* =========================
+   STRICT CLICK-ONLY INTRO
+========================= */
+
+window.addEventListener("load", () => {
+
+    if (!bgMusic) return;
+
+    bgMusic.volume = 0;
+
+    if (loadingText) {
+        loadingText.innerText = "Click anywhere to continue...";
+    }
+
+    let started = false;
+
+    function startExperience() {
+        if (started) return;
+        started = true;
+
+        // Start music from 3 seconds
+        bgMusic.currentTime = 3;
+        bgMusic.play();
+
+        // Fade intro out
+        if (introScreen) {
+            introScreen.style.transition = "opacity 1.5s ease";
+            introScreen.style.opacity = "0";
+
+            setTimeout(() => {
+                introScreen.style.display = "none";
+            }, 1500);
+        }
+
+        // Fade music in
+        fadeInMusic(0.4, 2000);
+    }
+
+    // ONLY click triggers it
+    window.addEventListener("click", startExperience);
+    window.addEventListener("touchstart", startExperience);
+
+});
+
+
+/* =========================
+   YOUR ORIGINAL MODAL LOGIC
+   (UNTOUCHED)
+========================= */
 
 function openModal(name, file, cardElement) {
     currentCardElement = cardElement;
@@ -471,6 +746,9 @@ function openModal(name, file, cardElement) {
     audio.play();
     
     modal.classList.add('active');
+
+    /* 🔥 ADDED: fade background music when voice starts */
+    fadeOutMusic(600);
 
     audio.ontimeupdate = () => {
         if(audio.duration) {
@@ -493,16 +771,68 @@ function openModal(name, file, cardElement) {
             if (titleElement) titleElement.innerText = name;
             if (subtextElement) subtextElement.innerText = "Message unlocked ✨";
         }
+
+        /* 🔥 ADDED: fade background music back when voice ends */
+        fadeInMusic(0.4, 1500);
     };
+}
+
+function openModalSp(name, file) {
+    fadeOutMusic(600);
+
+    audio.src = file;
+    audio.play();
+    modal2.classList.add('active');
+  
+    let lastTime = -1;
+    audio.ontimeupdate = () => {
+        if(audio.duration) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            bar2.style.width = pct + "%";
+            
+            // Check script dictionary
+            let currentSec = Math.floor(audio.currentTime);
+            if (script[currentSec] && currentSec !== lastTime) {
+                lastTime = currentSec;
+                updateVoiceLine(script[currentSec]);
+            }
+        }
+    };
+
+    audio.onended = () => {
+        // Unlock the page content
+        secretContent.classList.add('unlocked');
+        hintText.innerText = "Message Unlocked! ✨";
+        hintText.style.color = "#4dd2a3";
+        updateVoiceLine("XDD I love you <3");
+        fadeInMusic(0.4, 1500);
+    };
+}
+
+function updateVoiceLine(text) {
+    voiceDisplay.classList.remove('line-anim');
+    void voiceDisplay.offsetWidth; // Trigger reflow
+    voiceDisplay.innerText = text;
+    voiceDisplay.classList.add('line-anim');
 }
 
 function closeModal() {
     audio.pause();
     audio.currentTime = 0;
     modal.classList.remove('active');
+    modal2.classList.remove('active')
+
+    /* 🔥 ADDED: restore music if modal closed early */
+    fadeInMusic(0.4, 1000);
 }
 
-// Background Hearts
+
+
+/* =========================
+   BACKGROUND HEARTS
+   (UNTOUCHED)
+========================= */
+
 const heartContainer = document.getElementById("heartsContainer");
 setInterval(()=>{
   const heart=document.createElement("div");
@@ -513,6 +843,36 @@ setInterval(()=>{
   heartContainer.appendChild(heart);
   setTimeout(()=>heart.remove(),6000);
 },800);
+
+/* =========================
+   MUSIC TOGGLE BUTTON
+========================= */
+
+const musicToggleBtn = document.getElementById("musicToggleBtn");
+
+
+musicToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent triggering intro click
+
+    if (!bgMusic) return;
+
+    if (isMuted) {
+        bgMusic.volume = 0.4;
+        musicToggleBtn.innerText = "🔊";
+        isMuted = false;
+    } else {
+        bgMusic.volume = 0;
+        musicToggleBtn.innerText = "🔇";
+        isMuted = true;
+    }
+});
+
+function ShowMostImportant() {
+    mainContainer.style.display = "none";
+    secondaryContainer.classList.remove("most-importantly")
+    window.scrollTo(0, 0);
+}
+
 </script>
 
 </body>
