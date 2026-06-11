@@ -578,16 +578,16 @@ function fadeOutMusic(duration = 600) {
     const step = bgMusic.volume / (duration / interval);
 
     const fade = setInterval(() => {
-        if (bgMusic.volume - step > 0.1) {
+        if (bgMusic.volume - step > 0.0) {
             bgMusic.volume -= step;
         } else {
-            bgMusic.volume = 0.1;
+            bgMusic.volume = 0.0;
             clearInterval(fade);
         }
     }, interval);
 }
 
-function fadeInMusic(target = 0.4, duration = 1500) {
+function fadeInMusic(target = 0.2, duration = 1500) {
     if (!bgMusic) return;
     if (isMuted) return;
 
