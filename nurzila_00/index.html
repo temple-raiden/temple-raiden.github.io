@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message For You</title>
+<style>
+  :root{
+    --ink:#2b2432;
+    --ink-soft:#5c5368;
+    --rose:#e2688a;
+    --rose-deep:#c94f74;
+    --amber:#f2a65a;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{ height:100%; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    padding:32px 18px;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color:var(--ink);
+    background: linear-gradient(160deg,#fff6f2 0%, #fdf1f6 42%, #f1f0ff 100%);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- soft animated background ---------- */
+  .bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(75px);
+    opacity:.55;
+    animation:float 20s ease-in-out infinite;
+  }
+  .b1{ width:440px; height:440px; background:#ffd3e0; top:-140px; left:-120px; }
+  .b2{ width:400px; height:400px; background:#ffe4c4; bottom:-160px; right:-100px; animation-delay:-7s; }
+  .b3{ width:340px; height:340px; background:#dcd7ff; top:38%; left:58%; animation-delay:-13s; }
+
+  @keyframes float{
+    0%,100%{ transform:translate3d(0,0,0) scale(1); }
+    50%    { transform:translate3d(24px,-34px,0) scale(1.09); }
+  }
+
+  /* ---------- card ---------- */
+  .card{
+    position:relative;
+    z-index:1;
+    width:min(660px,100%);
+    background:rgba(255,255,255,.82);
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:26px;
+    padding:clamp(28px,5vw,54px);
+    box-shadow:
+      0 30px 70px -32px rgba(88,52,84,.38),
+      0 2px 8px rgba(88,52,84,.06);
+    animation:rise .9s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(26px); }
+    to  { opacity:1; transform:none; }
+  }
+
+  /* ---------- letter text ---------- */
+  .eyebrow{
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--rose-deep);
+    margin:0 0 20px;
+  }
+
+  h1{
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-size:clamp(1.7rem,4.6vw,2.35rem);
+    font-weight:600;
+    letter-spacing:-.01em;
+    line-height:1.2;
+    margin:0 0 20px;
+  }
+
+  .letter p{
+    line-height:1.78;
+    font-size:clamp(.98rem,2.2vw,1.05rem);
+    color:var(--ink-soft);
+    margin:0 0 17px;
+  }
+
+  .letter p:last-of-type{ margin-bottom:0; }
+
+  .signature{
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-style:italic;
+    font-size:1.1rem;
+    color:var(--ink);
+    margin-top:26px !important;
+  }
+
+  .question{
+    margin-top:30px !important;
+    padding-top:26px;
+    border-top:1px dashed rgba(92,83,104,.22);
+    color:var(--ink) !important;
+    font-weight:600;
+  }
+
+  /* staggered fade for each block */
+  .letter > *{
+    animation:fadeUp .7s ease both;
+  }
+  .letter > *:nth-child(1){ animation-delay:.15s; }
+  .letter > *:nth-child(2){ animation-delay:.25s; }
+  .letter > *:nth-child(3){ animation-delay:.35s; }
+  .letter > *:nth-child(4){ animation-delay:.45s; }
+  .letter > *:nth-child(5){ animation-delay:.55s; }
+  .letter > *:nth-child(6){ animation-delay:.65s; }
+  .letter > *:nth-child(7){ animation-delay:.75s; }
+  .letter > *:nth-child(8){ animation-delay:.85s; }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(12px); }
+    to  { opacity:1; transform:none; }
+  }
+
+  /* ---------- buttons ---------- */
+  .actions{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:30px;
+  }
+
+  .btn{
+    font:inherit;
+    font-weight:600;
+    font-size:1rem;
+    padding:14px 36px;
+    border-radius:999px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .28s cubic-bezier(.2,.8,.2,1),
+               box-shadow .28s ease,
+               background .28s ease,
+               color .28s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:focus-visible{
+    outline:3px solid rgba(226,104,138,.45);
+    outline-offset:3px;
+  }
+  .btn:active{ transform:scale(.97); }
+
+  .btn.yes{
+    color:#fff;
+    background:linear-gradient(135deg,#f2799e,#e2688a 48%,#cf5583);
+    box-shadow:0 14px 30px -12px rgba(206,80,124,.8);
+  }
+  .btn.yes:hover{
+    transform:translateY(-2px);
+    box-shadow:0 20px 36px -14px rgba(206,80,124,.9);
+  }
+
+  .btn.no{
+    background:transparent;
+    color:var(--ink-soft);
+    border-color:rgba(92,83,104,.3);
+  }
+  .btn.no:hover{
+    background:rgba(92,83,104,.07);
+    color:var(--ink);
+  }
+
+  .hint{
+    min-height:1.2em;
+    margin:16px 0 0;
+    font-size:.85rem;
+    color:rgba(92,83,104,.75);
+    font-style:italic;
+  }
+
+  /* ---------- view switching ---------- */
+  .view{
+    transition:opacity .38s ease, transform .38s ease;
+  }
+  .view.leaving{
+    opacity:0;
+    transform:translateY(-10px);
+  }
+  .reply{
+    opacity:0;
+    transform:translateY(14px);
+  }
+  .reply.entering{
+    opacity:1;
+    transform:none;
+  }
+
+  .reply h2{
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-size:clamp(1.5rem,4vw,2rem);
+    font-weight:600;
+    margin:0 0 18px;
+    letter-spacing:-.01em;
+  }
+  .reply p{
+    line-height:1.78;
+    font-size:clamp(.98rem,2.2vw,1.05rem);
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+  .reply .sig{
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-style:italic;
+    color:var(--ink);
+    margin-top:24px;
+  }
+
+  /* ---------- floating hearts ---------- */
+  .spark{
+    position:absolute;
+    pointer-events:none;
+    opacity:0;
+    animation:spark var(--dur,2s) ease-out forwards;
+    will-change:transform,opacity;
+  }
+  @keyframes spark{
+    0%  { opacity:0; transform:translate(0,0) scale(.5); }
+    15% { opacity:1; }
+    100%{ opacity:0; transform:translate(var(--dx,0),-170px) scale(1.15); }
+  }
+
+  @media (max-width:430px){
+    .actions{ flex-direction:column; align-items:stretch; }
+    .btn{ width:100%; padding:15px 20px; }
+    .card{ border-radius:22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+  </div>
+
+  <main class="card" id="card">
+
+    <!-- ===== LETTER VIEW ===== -->
+    <!-- ===== LETTER VIEW ===== -->
+    <div class="view" id="letterView">
+      <div class="letter">
+        <p class="eyebrow">If possible read the whole thing... </p>
+
+        <h1>Hey Noor,</h1>
+
+        <p>
+          First of all, I am so sorry for reaching out to you like this and bothering you, I know you probably hate me and im the last person you want to hear from, Im sorry...
+        </p>
+
+        <p>
+            So.. 
+
+In this past year.. I have learned alot abt myself abt who i was, who i really am and who i want to be... most importantly i wanted to be closer to God.. cuz without him I have nothing and no one... 
+        </p>
+
+        <p>
+And alot has happened in this time while we werent talking... somethings good...somethings horrible... a lot of things I realized, a lot of things i gave up on.
+        </p>
+
+        <p>
+            
+I had no hope or way of succeeding financially... like literally how could i? no formal education... only alot of coding skills, getting a job for which requires a degree... but I found the path...i found MY path... I earned like 180k from home by doing paid projects in like past half an year or so but its not consistent income so its not good or enough to make me financially stable or succeed.
+            
+        </p>
+
+        <p>
+          So more importantly, I am working on a project of my own, A video game, and I expect it to finish in 2 years but according to my expectations and calculations it should easily earn around 70 crore pkr, obviously if i dont fuck it up but i really have high hopes for this as the progress is going really well, I already have some prototype stuff ready.
+        </p>
+
+        <p>
+            And uh...my health had gotten a lot worse because of starvation and etc... but since like a short while i have tried to improve my diet, AND STARTED WORKING OUT... AND BRO I cant believe it even tho it hasnt been that long at all, I AM ALREADY SEEING RESULTS... FIRST TIME IN IDK AS FAR AS I CAN REMEMBER... EVER i have MUSCLES.. BICEPS AND FOREARM MUSCLES....i cant believe it ahahaha I work out everyday... altho it hasnt been that long and since my diet isnt the greatest, rn the process is slow because my body is having to first recover the damage that been done in the last 4 years....
+        </p>
+
+        <p>
+            And I have learned a lotttttt of stuff in psychology... about ppl and their behaviours.... like trust me i learned ALOOOOOOOOOT abt this stuff.. and it has helped me so much in understanding myself and people around me so much better... It has also helped me so much in becoming a way better version of myself.
+        </p>
+
+        <p>
+            But one of the most important things that happened is that, I found a friend group, a bunch of German guys, and they have helped me so much in so many ways, oh and most of my old friends are pretty much out of my life, but anyways these guys really love me and care for me... I am like part of their family.... 
+        </p>
+
+        <p>
+            A while back at some point, when things were way worse, I was so sure that my life is just gonna end with me having a shitty job that doesnt pay me shit... so i cant afford to move or do anything and Ill die alone... by either OD or something else.. I convinced myself that in life its not possible for me to achieve something i wanted more than anything, only way ill ever achieve ....real love is by dying and moving onto to next life where i can ask God for it... now i understand that this is....stupid
+        </p>
+
+        <p>
+            <strong>Okay so ill get to the point now: </strong>
+        </p>
+
+        <p>
+            I have thought a lot about you and...about the things I did wrong and the things i should have done insteads.. 
+        </p>
+
+        <p>
+            Im so fucking sorry...for everything, you deserved so much better... im sorry for fighting with you...im sorry for hurting you...im sorry for not responding to you on time...im sorry for not reading your messages...im sorry for not giving you my priority...my attention im sorry for for making stuff about myself...im so fcking sorry... :( i am so so soo sorry for **not trusting you**... i kept you separated from my friends cuz i had trust issues...im so sorry...i should have trusted you...and had faith in you... i should have given you more time...I should have found ways to make you happy and spend time with you...
+        </p>
+
+        <p>
+            <strong>Wish I had..</strong>
+        </p>
+
+        <p>
+            I should have trusted you more... should have introduced you to my friends, let you spend time with us, be an active part of my life... 
+        </p>
+
+        <p>
+            I should have never fought with you...I should have treated you with kindness and love... like a lil cutie pie...even if you were angry at me, I should been the bigger person and dealt with you with kindness and love...
+        </p>
+
+        <p>
+            I should have given you the attention, care and time you deserved, I am so sorry for these, I was really immature... my attention and care should always have been yours :(... altho for time i can cut myself lil bit slack cuz i had a full time job TvT... but still no excuse for not giving you attention and love and care you deserved... im so sorry :(
+        </p>
+
+        <p>I should have taken the time to read all your texts and messages properly and reply to each like i used to...</p>
+
+        <p>
+            I have read alot of screenshots of us talking and in one of them, I saw both of us admitting we talk to AI Chat bots... breh.. We both had each other but still needed to rely on chat bots... im so sorry thats my bad completely... i should have spent that time and energy on you and uhm RPing would have been so good and fun for us anyways im sorry that we didnt get to do that its my fault... 
+        </p>
+
+        <p>
+            I could go on and on about all the things, I wish I did or didnt do... <strong>but my point is</strong>
+        </p>
+
+        <p>
+            Noor, Im so sorry... I have thought about this a lot and for a long time... and I think the version of me you sadly met and had to endure was very immature and childish... and since then I have matured a lot and learned a lot... and my life has changed alot too... 
+        </p>
+
+        <p>and I have wished so much that you were with me right now so I could do better and not make the mistakes I made back then ... I have wished so much that you were here to get to know and see the current version of me... I am so sure you would have been so so much happier...</p>
+
+        <p>
+            The fact that I can see the mistakes i made back there and the wish of having done things better shows me that this version of me is more mature and more responsible and capable...
+            as you might have heard this quote before <strong>"Regret is proof you've grown. The fact that you wish you had done better means you are already someone who would."</strong>
+        </p>
+
+        <p>
+            <strong>Okay so the final point and question..</strong>
+        </p>
+
+        <p>
+            if we were together irl i would be on my knees as ask you this...
+        </p>
+
+        <p>
+            Noor pls could you give me just 1 or 2 weeks... pls just for that amount of time come online on discord... and let me treat you how you deserved you to be treated...and how i wish i had already treated you.. ill introduce you to my friends... ill give you all my attention and priority and ill do all of the other things i mentioned + more and after the time you gave me is over you can decide for yourself if I have really learned and changed and deserve a chance or not...
+        </p>
+
+        <p>after that time you can decide what ever you wanna do with me, but pls I beg you...pls do give me this time...and a chance to earn your forgiveness and anything more that you will bestow upon me, I swear ill treat you like a queen and ill worship you.. like your dog... pls give me a chance..</p>
+
+
+        <p class="signature">— oh and if you have any questions you can ask me in dms..</p>
+
+        <p class="question">So… can pleaseeee give me sometime to earn your forgivenes and prove myself... :(?</p>
+
+        <div class="actions">
+          <button class="btn yes" id="yesBtn" type="button">Yes</button>
+          <button class="btn no" id="noBtn" type="button">No</button>
+        </div>
+
+        <p class="hint" id="hint"></p>
+      </div>
+    </div>
+
+    <!-- ===== REPLY VIEW ===== -->
+    <div class="view reply" id="replyView" hidden></div>
+
+  </main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ==========================================================
+     ⚙️  CONFIGURATION — PASTE YOUR DISCORD WEBHOOK URL BELOW
+     ==========================================================
+     Format: https://discord.com/api/webhooks/XXXXXX/YYYYYY
+     Leave it as "" to disable webhook notifications.
+  ========================================================== */
+  var WEBHOOK_URL = "https://discord.com/api/webhooks/1555190888144310403/VVNO1pqjNVP32wN0G8EXHYVQAsEtLMVRByUZlQjMLd8dxZkB0gB5zES0GqGqosMkf0LF";
+
+  /* Optional: name shown as the webhook sender */
+  var WEBHOOK_NAME = "A Message For You";
+
+  /* Optional: tag someone / a role on every notification.
+     Example: "<@123456789012345678>" or "<@&123456789012345678>"
+     Leave as "" for no mention. */
+  var PING = "";
+
+  /* ==========================================================
+     Discord webhook sender
+     ========================================================== */
+  var alreadySent = false;
+
+function notifyDiscord(answer) {
+  if (!WEBHOOK_URL) return;          // not configured — skip quietly
+  if (alreadySent) return;           // only report the first choice
+  alreadySent = true;
+
+  var now = new Date();
+
+  var payload = {
+    username: WEBHOOK_NAME,
+    embeds: [{
+      title: answer === "yes" ? "💚 They said YES" : "💔 They said NO",
+      description:
+        "**" + WEBHOOK_NAME + "** was answered.\n\n" +
+        "**Choice:** `" + answer.toUpperCase() + "`\n" +
+        "**Time:** <t:" + Math.floor(now.getTime() / 1000) + ":F>",
+      color: answer === "yes" ? 0x57F287 : 0xED4245,
+      footer: { text: "Page: " + document.title },
+      timestamp: now.toISOString()
+    }]
+  };
+
+  // Only add the ping field if a ping is configured. Sending it as
+  // `null` can trigger a 400 from Discord.
+  if (PING) payload.content = PING;
+
+  // Discord webhooks DO return CORS headers, so a normal CORS request
+  // works. We must use application/json — with no-cors the browser
+  // would force text/plain and Discord would respond 400.
+  fetch(WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function (res) {
+    if (!res.ok) {
+      console.warn("Discord webhook responded with status " + res.status);
+    }
+  })
+  .catch(function (err) {
+    console.warn("Webhook send failed:", err);
+  });
+}
+
+  /* ==========================================================
+     Page logic
+     ========================================================== */
+  var card       = document.getElementById("card");
+  var letterView = document.getElementById("letterView");
+  var replyView  = document.getElementById("replyView");
+  var yesBtn     = document.getElementById("yesBtn");
+  var noBtn      = document.getElementById("noBtn");
+  var hint       = document.getElementById("hint");
+
+  var canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var dodges = 0;
+  var MAX_DODGES = 3;
+
+  /* ---------- playful dodge for the "No" button ---------- */
+  noBtn.addEventListener("mouseenter", function () {
+    if (!canHover || dodges >= MAX_DODGES) return;
+
+    dodges++;
+
+    var x = (Math.random() - 0.5) * 170;
+    var y = (Math.random() - 0.5) * 90;
+    noBtn.style.transform = "translate(" + x + "px," + y + "px)";
+
+    if (dodges === MAX_DODGES) {
+      hint.textContent = "Okay, okay — it'll stay put now. Promise.";
+    }
+  });
+
+  /* ---------- swap views ---------- */
+  function showReply(html) {
+    letterView.classList.add("leaving");
+
+    window.setTimeout(function () {
+      letterView.hidden = true;
+      letterView.classList.remove("leaving");
+
+      replyView.innerHTML = html;
+      replyView.hidden = false;
+
+      requestAnimationFrame(function () {
+        replyView.classList.add("entering");
+      });
+    }, 380);
+  }
+
+  /* ---------- floating hearts ---------- */
+  function burst() {
+    var glyphs = ["♥", "✦", "♥", "•"];
+    var colors = ["#e2688a", "#f2a65a", "#b48ce0", "#f2799e"];
+
+    for (var i = 0; i < 18; i++) {
+      var s = document.createElement("span");
+      s.className = "spark";
+      s.setAttribute("aria-hidden", "true");
+      s.textContent = glyphs[i % glyphs.length];
+
+      s.style.left = (8 + Math.random() * 84) + "%";
+      s.style.bottom = (12 + Math.random() * 20) + "%";
+      s.style.fontSize = (10 + Math.random() * 15) + "px";
+      s.style.color = colors[i % colors.length];
+      s.style.setProperty("--dx", (Math.random() * 180 - 90) + "px");
+      s.style.setProperty("--dur", (1.6 + Math.random() * 1.4) + "s");
+      s.style.animationDelay = (Math.random() * 0.35) + "s";
+
+      card.appendChild(s);
+
+      (function (node) {
+        window.setTimeout(function () {
+          if (node.parentNode) node.parentNode.removeChild(node);
+        }, 3400);
+      })(s);
+    }
+  }
+
+  /* ---------- YES ---------- */
+  yesBtn.addEventListener("click", function () {
+    notifyDiscord("yes");
+    burst();
+
+    showReply(
+      '<h2>Thank you so much...</h2>' +
+      '<p>..i wont let you down...i promise.. :( tysmm..</p>' +
+      '<p>well then... see you on discord ^^</p> ' 
+    );
+  });
+
+  /* ---------- NO ---------- */
+  noBtn.addEventListener("click", function () {
+    notifyDiscord("no");
+    noBtn.style.transform = "none";
+
+    showReply(
+      '<h2>Aw.. well that\'s okay.</h2>' +
+      '<p>Thank you for reading it anyway that alone took more patience and time than I deserved.</p>' +
+      '<p>well ill try not to bother you ever again.. :(</p>' +
+      '<p class="sig">Wishing you well, always.</p>'
+    );
+  });
+
+  /* ---------- keyboard safety: reset dodge if window resizes ---------- */
+  window.addEventListener("resize", function () {
+    noBtn.style.transform = "none";
+    dodges = 0;
+    hint.textContent = "";
+  });
+})();
+</script>
+</body>
+</html>
